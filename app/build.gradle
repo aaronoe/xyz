@@ -9,9 +9,9 @@ apply from: "$project.rootDir/tools/script-lint.gradle"
 apply from: "$project.rootDir/tools/script-pmd.gradle"
 apply from: "$project.rootDir/tools/script-java-code-coverage.gradle"
 
-
 android {
     compileSdkVersion 27
+    flavorDimensions "default"
     defaultConfig {
         applicationId "de.aaronoe.xyz"
         minSdkVersion 21
@@ -38,6 +38,7 @@ android {
 
     productFlavors {
         dev {
+            dimension "default"
             signingConfig signingConfigs.debug
             versionCode gitVersionCodeTime
             versionName gitVersionName
@@ -45,6 +46,7 @@ android {
         }
 
         prod {
+            dimension "default"
             signingConfig signingConfigs.release
             versionCode gitVersionCode
             versionName gitVersionName
@@ -68,6 +70,13 @@ android {
 }
 
 def AAVersion = '4.3.1'
+
+kapt {
+    arguments {
+        arg("resourcePackageName", android.defaultConfig.applicationId)
+        arg("androidManifestFile", variant.outputs[0]?.processResources?.manifestFile)
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
