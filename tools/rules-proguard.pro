@@ -28,5 +28,9 @@
     public static int e(...);
 }
 
+# Firebase Auth
+-keepattributes Signature
+-keepattributes *Annotation*
+
 # Proguard configurations for common Android libraries:
 # https://github.com/krschultz/android-proguard-snippets

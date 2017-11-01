@@ -36,40 +36,21 @@ android {
         }
     }
 
-    productFlavors {
-        dev {
-            dimension "default"
-            signingConfig signingConfigs.debug
-            versionCode gitVersionCodeTime
-            versionName gitVersionName
-            applicationId "de.aaronoe.xyz.dev"
-        }
-
-        prod {
-            dimension "default"
-            signingConfig signingConfigs.release
-            versionCode gitVersionCode
-            versionName gitVersionName
-            applicationId "de.aaronoe.xyz"
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), "$project.rootDir/tools/rules-proguard.pro"
-            signingConfig signingConfigs.release
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), "$project.rootDir/tools/rules-proguard-debug.pro"
+            versionNameSuffix ".dev"
             signingConfig signingConfigs.debug
         }
     }
 
 }
 
-def AAVersion = '4.3.1'
 
 kapt {
     arguments {
@@ -78,19 +59,39 @@ kapt {
     }
 }
 
+def anko_version = "0.10.2"
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
     // Support Library
     implementation 'com.android.support:appcompat-v7:27.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:recyclerview-v7:27.0.0'
+    implementation 'com.android.support:cardview-v7:27.0.0'
+    implementation 'com.android.support:design:27.0.0'
 
-    // Android Annotations
-    kapt "org.androidannotations:androidannotations:$AAVersion"
-    implementation "org.androidannotations:androidannotations-api:$AAVersion"
+    // Image Related
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.2.0'
+
+    // Jake Wharton
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    // Firebase
+    implementation 'com.google.android.gms:play-services-auth:11.4.2'
+    implementation 'com.google.firebase:firebase-auth:11.4.2'
+    implementation 'com.google.firebase:firebase-firestore:11.4.2'
+    implementation 'com.google.firebase:firebase-storage:11.4.2'
+    implementation 'com.google.firebase:firebase-messaging:11.4.2'
 
     // Testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
