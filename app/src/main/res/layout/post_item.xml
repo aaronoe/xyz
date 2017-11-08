@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/post_item_card"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:layout_marginTop="8dp"
+  android:layout_marginBottom="8dp"
+  style="@style/ElevationItem"
+  app:cardElevation="2dp">
+
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+      android:orientation="horizontal"
+      android:layout_margin="8dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/feed_item_profile_picture_iv"
+        tools:src="@drawable/ic_mood_bad_black_24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+      <TextView
+        android:id="@+id/feed_item_profile_name_tv"
+        tools:text="Aaron Oertel"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <ImageView
+      android:id="@+id/feed_item_post_image_iv"
+      tools:src="@drawable/ic_add_box_black_24dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:scaleType="fitCenter"
+      android:adjustViewBounds="true"
+      android:contentDescription="@string/post_image" />
+
+    <LinearLayout
+      android:layout_margin="8dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <CheckBox
+        android:id="@+id/post_item_like_checkbox"
+        android:background="@drawable/ic_mood_bad_black_24dp"
+        android:layout_marginEnd="8dp"
+        android:button="@null"
+        android:checked="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+      <ImageView
+        android:id="@+id/post_item_comment_iv"
+        android:background="@drawable/ic_mood_bad_black_24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+      <ImageView
+        android:id="@+id/post_item_share_iv"
+        android:background="@drawable/ic_mood_bad_black_24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <TextView
+      android:id="@+id/post_item_caption_tv"
+      tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ex massa, elementum ut mi ut, convallis sodales justo. Nulla ut dictum est. Curabitur nec condimentum libero."
+      android:layout_margin="8dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+  </LinearLayout>
+
+</android.support.v7.widget.CardView>

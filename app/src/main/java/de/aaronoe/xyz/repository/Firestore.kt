@@ -8,7 +8,8 @@ import de.aaronoe.xyz.model.User
 
 object Firestore {
 
-    val USERS = "USERS"
+    private val USERS = "USERS"
+    private val USER_FEED = "USER_FEED"
 
     fun getUsersReference() : CollectionReference {
         return FirebaseFirestore.getInstance().collection(USERS)
@@ -21,6 +22,10 @@ object Firestore {
                 .set(user)
                 .addOnCompleteListener(completedListener)
                 .addOnFailureListener(failureListener)
+    }
+
+    fun getFeedPosts() : CollectionReference? {
+        return AccountManager.user?.userId?.let { FirebaseFirestore.getInstance().collection(USERS).document(it).collection(USER_FEED) }
     }
 
 }

@@ -18,9 +18,9 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.firestore.FirebaseFirestoreSettings
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.model.User
+import de.aaronoe.xyz.repository.AccountManager
 import de.aaronoe.xyz.repository.Firestore
 import de.aaronoe.xyz.ui.navigation.NavigationActivity
 import org.jetbrains.anko.*
@@ -97,6 +97,7 @@ class LoginActivity : AppCompatActivity() {
                             Firestore.saveUserAccount(User(user),
                                     OnCompleteListener {
                                         toast("Success")
+                                        AccountManager.updateUser()
                                         progressDialog.cancel()
                             },
                                     OnFailureListener {
