@@ -4,6 +4,7 @@ package de.aaronoe.xyz.ui.feed
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -15,6 +16,8 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.model.Post
+import de.aaronoe.xyz.repository.AccountManager
+import de.aaronoe.xyz.repository.Firestore
 import de.aaronoe.xyz.utils.gone
 import de.aaronoe.xyz.utils.visible
 
@@ -32,25 +35,12 @@ class FeedFragment : Fragment() {
     lateinit var emptyContainer : ViewGroup
     @BindView(R.id.feed_list_pb)
     lateinit var feedPb : ProgressBar
+    @BindView(R.id.fab_add)
+    lateinit var addFab : FloatingActionButton
 
     private lateinit var viewModel : FeedViewModel
     private val layoutManager by lazy { LinearLayoutManager(this@FeedFragment.context, LinearLayoutManager.VERTICAL, false) }
     private val feedAdapter by lazy { this@FeedFragment.context?.let { FeedAdapter(it) } }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
-        viewModel.posts.observe(this, Observer<List<Post>> {
-            it?.let { it1 -> updateFeedList(it1) }
-        })
-
-        postsRv.layoutManager = layoutManager
-        postsRv.adapter = feedAdapter
-
-        viewModel.subscribeToPosts()
-    }
 
     private fun updateFeedList(posts: List<Post>) {
         if (posts.isEmpty()) {
@@ -68,10 +58,28 @@ class FeedFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        inflater.inflate(R.layout.fragment_feed, container, false).let {
-            ButterKnife.bind(this@FeedFragment, it)
-            return it
+        val view = inflater.inflate(R.layout.fragment_feed, container, false)
+
+        ButterKnife.bind(this@FeedFragment, view)
+
+        viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
+        viewModel.posts.observe(this, Observer<List<Post>> {
+            it?.let { it1 -> updateFeedList(it1) }
+        })
+
+        postsRv.layoutManager = layoutManager
+        postsRv.adapter = feedAdapter
+
+        viewModel.subscribeToPosts()
+
+        addFab.setOnClickListener {
+            AccountManager.user?.let { it1 ->
+                Post(it1,
+                        "https://images.unsplash.com/photo-1494516192674-b82b5f1e61dc?auto=format&fit=crop&w=633&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D", "Cool test")
+            }?.let { it1 -> Firestore.makeTestFeedPost(it1) }
         }
+
+        return view
     }
 
     companion object {

@@ -99,6 +99,7 @@ class LoginActivity : AppCompatActivity() {
                                         toast("Success")
                                         AccountManager.updateUser()
                                         progressDialog.cancel()
+                                        updateUI(user)
                             },
                                     OnFailureListener {
                                         toast("Failure")

@@ -8,6 +8,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.repository.AccountManager
+import de.aaronoe.xyz.ui.feed.FeedFragment
 import de.aaronoe.xyz.ui.login.LoginActivity
 import org.jetbrains.anko.startActivity
 
@@ -37,8 +38,10 @@ class NavigationActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                startActivity<LoginActivity>()
-                finish()
+                supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_nav_frame, FeedFragment.newInstance())
+                        .commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_search -> {

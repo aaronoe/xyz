@@ -12,12 +12,12 @@ import com.google.firebase.auth.FirebaseUser
  * - Following
  **/
 
-data class User(val userName : String,
-                val email: String,
-                val pictureUrl: String,
-                val userId: String,
-                val followerCount: Int,
-                val followingCount: Int) {
+data class User(val userName : String = "",
+                val email: String = "",
+                val pictureUrl: String = "",
+                val userId: String = "",
+                val followerCount: Int = 0,
+                val followingCount: Int = 0) {
 
     /**
      * Used when the user first signs in

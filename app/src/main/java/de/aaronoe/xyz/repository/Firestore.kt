@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.model.User
 
 object Firestore {
@@ -25,7 +26,20 @@ object Firestore {
     }
 
     fun getFeedPosts() : CollectionReference? {
-        return AccountManager.user?.userId?.let { FirebaseFirestore.getInstance().collection(USERS).document(it).collection(USER_FEED) }
+        return AccountManager.user?.userId?.let {
+            FirebaseFirestore.getInstance().collection(USERS).document(it).collection(USER_FEED)
+        }
+    }
+
+    fun makeTestFeedPost(post: Post) {
+        AccountManager.user?.userId?.let {
+            FirebaseFirestore.getInstance()
+                    .collection(USERS)
+                    .document(it)
+                    .collection(USER_FEED)
+                    .document(post.id)
+                    .set(post)
+        }
     }
 
 }
