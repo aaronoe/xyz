@@ -12,4 +12,5 @@
   <string name="no_posts_explanation">There are no posts in your feed yet!</string>
   <string name="nothing_here">Nothing here</string>
   <string name="post_image">Post Image</string>
+  <string name="user_picture_transition">user_picture_transition</string>
 </resources>

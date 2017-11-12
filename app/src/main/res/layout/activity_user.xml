@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  >
+
+  <android.support.design.widget.AppBarLayout
+    android:id="@+id/app_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_scrollFlags="scroll|snap">
+
+      <android.support.v7.widget.Toolbar
+        android:id="@+id/user_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"/>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+          android:id="@+id/user_photo_iv"
+          android:transitionName="@string/user_picture_transition"
+          android:layout_width="72dp"
+          android:layout_height="72dp"
+          android:layout_gravity="center"/>
+
+        <TextView
+          android:id="@+id/user_name_tv"
+          android:textStyle="bold"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="8dp"
+          android:textSize="23sp"
+          tools:text="Aaron Oertel"/>
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.TabLayout
+      android:id="@+id/user_tabs"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:tabGravity="fill"
+      app:tabIndicatorColor="@android:color/black"
+      app:tabMode="fixed"/>
+
+  </android.support.design.widget.AppBarLayout>
+
+  <android.support.v4.view.ViewPager
+    android:id="@+id/user_viewpager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+</android.support.design.widget.CoordinatorLayout>

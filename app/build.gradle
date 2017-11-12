@@ -87,6 +87,10 @@ dependencies {
     implementation 'com.android.support:support-v4:27.0.0'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
+    // Parceler
+    implementation 'org.parceler:parceler-api:1.1.9'
+    kapt 'org.parceler:parceler:1.1.9'
+
     // Firebase
     implementation 'com.google.android.gms:play-services-auth:11.6.0'
     implementation 'com.google.firebase:firebase-auth:11.6.0'

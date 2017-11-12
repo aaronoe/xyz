@@ -1,6 +1,8 @@
 package de.aaronoe.xyz.ui.feed
 
+import android.app.Activity
 import android.content.Context
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -15,16 +17,17 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.model.Post
+import de.aaronoe.xyz.ui.userdetail.UserActivity
 import de.hdodenhof.circleimageview.CircleImageView
 
 
 class FeedAdapter(val context: Context) : RecyclerView.Adapter<FeedAdapter.FeedItemViewHolder>() {
 
-    private var postList : List<Post>? = null
+    private var postList: List<Post>? = null
     private var lastPosition = -1
 
 
-    fun setPosts(posts : List<Post>) {
+    fun setPosts(posts: List<Post>) {
         postList = posts
         notifyDataSetChanged()
     }
@@ -52,24 +55,24 @@ class FeedAdapter(val context: Context) : RecyclerView.Adapter<FeedAdapter.FeedI
         }
     }
 
-    inner class FeedItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+    inner class FeedItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         @BindView(R.id.feed_item_profile_name_tv)
-        lateinit var profileNameTv : TextView
+        lateinit var profileNameTv: TextView
         @BindView(R.id.feed_item_profile_picture_iv)
-        lateinit var profilePictureIv : CircleImageView
+        lateinit var profilePictureIv: CircleImageView
         @BindView(R.id.feed_item_post_image_iv)
-        lateinit var postPictureIv : ImageView
+        lateinit var postPictureIv: ImageView
         @BindView(R.id.post_item_like_checkbox)
-        lateinit var likeCheckBox : CheckBox
+        lateinit var likeCheckBox: CheckBox
         @BindView(R.id.post_item_comment_iv)
-        lateinit var commentIv : ImageView
+        lateinit var commentIv: ImageView
         @BindView(R.id.post_item_share_iv)
-        lateinit var shareIv : ImageView
+        lateinit var shareIv: ImageView
         @BindView(R.id.post_item_caption_tv)
-        lateinit var captionTv : TextView
+        lateinit var captionTv: TextView
         @BindView(R.id.feed_item_user_info_container)
-        lateinit var userContainer : ViewGroup
+        lateinit var userContainer: ViewGroup
 
         init {
             ButterKnife.bind(this, itemView)
@@ -89,9 +92,12 @@ class FeedAdapter(val context: Context) : RecyclerView.Adapter<FeedAdapter.FeedI
 
             userContainer.setOnClickListener {
                 Toast.makeText(context, "Clicked on ${post.author.userName}", Toast.LENGTH_SHORT).show()
+                val options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(context as Activity, profilePictureIv,
+                                context.getString(R.string.user_picture_transition))
+                context.startActivity(UserActivity.getIntent(context, post.author), options.toBundle())
             }
         }
 
     }
-
 }

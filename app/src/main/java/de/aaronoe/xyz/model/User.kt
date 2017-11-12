@@ -1,6 +1,8 @@
 package de.aaronoe.xyz.model
 
 import com.google.firebase.auth.FirebaseUser
+import org.parceler.Parcel
+import org.parceler.ParcelConstructor
 
 /**
  * Outgoing Collections possibly include:
@@ -12,12 +14,22 @@ import com.google.firebase.auth.FirebaseUser
  * - Following
  **/
 
-data class User(val userName : String = "",
-                val email: String = "",
-                val pictureUrl: String = "",
-                val userId: String = "",
-                val followerCount: Int = 0,
-                val followingCount: Int = 0) {
+@Parcel(Parcel.Serialization.BEAN)
+data class User @ParcelConstructor constructor(val userName : String,
+                                               val email: String,
+                                               val pictureUrl: String,
+                                               val userId: String,
+                                               val followerCount: Int,
+                                               val followingCount: Int) {
+
+    constructor() : this(
+            userName = "",
+            email = "",
+            pictureUrl = "",
+            userId = "",
+            followingCount = 0,
+            followerCount = 0
+    )
 
     /**
      * Used when the user first signs in

@@ -26,6 +26,7 @@
       <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/feed_item_profile_picture_iv"
         tools:src="@drawable/ic_mood_bad_black_24dp"
+        android:transitionName="@string/user_picture_transition"
         android:layout_width="32dp"
         android:layout_height="32dp"/>
 
