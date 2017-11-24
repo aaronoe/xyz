@@ -17,6 +17,9 @@ buildscript {
         classpath 'com.google.gms:google-services:3.1.0'
     }
 }
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.0.0.RC5-3"
+}
 
 allprojects {
     repositories {
@@ -27,4 +30,13 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+detekt {
+    version = "1.0.0.RC5-3"
+    profile("main") {
+        input = "$projectDir/app"
+        config = "$projectDir/tools/detekt.yml"
+        filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
+    }
 }

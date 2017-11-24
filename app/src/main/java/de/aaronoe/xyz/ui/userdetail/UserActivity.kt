@@ -2,7 +2,6 @@ package de.aaronoe.xyz.ui.userdetail
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -13,15 +12,12 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.model.User
 import de.hdodenhof.circleimageview.CircleImageView
 import org.parceler.Parcels
-import java.lang.Exception
 
 class UserActivity : AppCompatActivity() {
 

@@ -1,6 +1,5 @@
 package de.aaronoe.xyz.ui.login
 
-import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -25,7 +24,6 @@ import de.aaronoe.xyz.repository.Firestore
 import de.aaronoe.xyz.ui.navigation.NavigationActivity
 import org.jetbrains.anko.*
 
-@SuppressLint("Registered")
 class LoginActivity : AppCompatActivity() {
 
     @BindView(R.id.sign_in_button)
@@ -34,7 +32,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog
     private lateinit var googleApiClient: GoogleApiClient
     private lateinit var firebaseAuth: FirebaseAuth
-    private val RC_SIGN_IN = 9001
+
+    companion object {
+        private val RC_SIGN_IN = 9001
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +47,10 @@ class LoginActivity : AppCompatActivity() {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
+
+        gso.apply {
+
+        }
 
         googleApiClient = GoogleApiClient.Builder(this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
