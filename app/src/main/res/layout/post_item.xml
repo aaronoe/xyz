@@ -16,74 +16,70 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-      android:id="@+id/feed_item_user_info_container"
-      android:orientation="horizontal"
-      android:layout_margin="8dp"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
-
-      <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/feed_item_profile_picture_iv"
-        tools:src="@drawable/ic_mood_bad_black_24dp"
-        android:layout_width="32dp"
-        android:layout_height="32dp"/>
-
-      <TextView
-        android:id="@+id/feed_item_profile_name_tv"
-        tools:text="Aaron Oertel"
-        android:textSize="15sp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
     <de.aaronoe.xyz.utils.SquareImageView
       android:id="@+id/feed_item_post_image_iv"
-      tools:src="@drawable/ic_add_box_black_24dp"
+      tools:src="@color/colorAccent"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:scaleType="centerCrop"
       android:contentDescription="@string/post_image" />
 
-    <LinearLayout
-      android:layout_margin="8dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+      android:id="@+id/feed_item_profile_picture_iv"
+      tools:src="@drawable/ic_mood_bad_black_24dp"
+      android:transitionName="@string/user_picture_transition"
+      android:layout_marginTop="-24dp"
+      android:layout_marginStart="16dp"
+      android:layout_width="48dp"
+      android:layout_height="48dp"/>
+
+    <TextView
+      android:id="@+id/feed_item_profile_name_tv"
+      tools:text="Aaron Oertel"
+      android:textSize="14sp"
+      android:layout_marginStart="16dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+    <TextView
+      android:id="@+id/post_item_caption_tv"
+      tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ex massa, elementum ut mi ut, convallis sodales justo. Nulla ut dictum est. Curabitur nec condimentum libero."
+      android:layout_marginTop="8dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginEnd="16dp"
       android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+    <LinearLayout
+      android:orientation="horizontal"
+      android:layout_marginStart="16dp"
+      android:layout_marginEnd="16dp"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content">
 
-      <CheckBox
-        android:id="@+id/post_item_like_checkbox"
-        android:background="@drawable/ic_mood_bad_black_24dp"
-        android:layout_marginEnd="8dp"
-        android:button="@null"
-        android:checked="false"
+      <TextView
+        android:id="@+id/feed_item_likes_tv"
+        tools:text="9 Likes"
+        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-      <ImageView
-        android:id="@+id/post_item_comment_iv"
-        android:background="@drawable/ic_mood_bad_black_24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-      <ImageView
-        android:id="@+id/post_item_share_iv"
-        android:background="@drawable/ic_mood_bad_black_24dp"
+      <TextView
+        android:id="@+id/feed_item_comments_tv"
+        tools:text="5 Comments"
+        android:layout_marginStart="8dp"
+        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
-    <TextView
-      android:id="@+id/post_item_caption_tv"
-      tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ex massa, elementum ut mi ut, convallis sodales justo. Nulla ut dictum est. Curabitur nec condimentum libero."
+    <View
+      android:background="@android:color/darker_gray"
       android:layout_margin="8dp"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+      android:layout_height="1dp" />
 
   </LinearLayout>
 

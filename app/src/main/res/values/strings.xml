@@ -7,9 +7,15 @@
   <string name="title_activity">Activity</string>
   <string name="title_profile">Profile</string>
 
-  <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="no_posts_explanation">There are no posts in your feed yet!</string>
   <string name="nothing_here">Nothing here</string>
   <string name="post_image">Post Image</string>
+  <string name="user_picture_transition">user_picture_transition</string>
+  <string name="number_of_comments">%d Comments</string>
+  <string name="number_of_likes">%d Likes</string>
+  <string name="name_and_date">%1$s - %2$s</string>
+  <string name="posts">Posts</string>
+  <string name="followers">Followers</string>
+  <string name="following">Following</string>
 </resources>

@@ -1,5 +1,6 @@
 package de.aaronoe.xyz.ui.navigation
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
@@ -27,7 +28,7 @@ class NavigationActivity : AppCompatActivity() {
 
         if (!AccountManager.isUserSet()) {
             // Go to login
-
+            startActivity(Intent(this, LoginActivity::class.java))
         } else {
             // setup UI
         }

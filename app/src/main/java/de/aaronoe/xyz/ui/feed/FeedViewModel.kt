@@ -10,9 +10,8 @@ class FeedViewModel : ViewModel() {
 
     val posts by lazy { MutableLiveData<List<Post>>() }
 
-
     fun subscribeToPosts() {
-        Firestore.getFeedPosts()?.orderBy("timestamp", Query.Direction.DESCENDING)?.addSnapshotListener { snapshot, exception ->
+        Firestore.getFeedPosts()?.orderBy("timestamp", Query.Direction.DESCENDING)?.addSnapshotListener { snapshot, _ ->
             snapshot?.let {
                 val postList  = mutableListOf<Post>()
                 it.forEach {
