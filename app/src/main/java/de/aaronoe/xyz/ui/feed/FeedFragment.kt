@@ -77,7 +77,7 @@ class FeedFragment : Fragment() {
                 Post(it1,
                         "https://images.unsplash.com/photo-1494516192674-b82b5f1e61dc?auto=format&fit=crop&w=633&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
                         "Aaron told Floyd that he is indeed a very good boy. Floyd likes to watch Football with his two daddies")
-            }?.let { it1 -> Firestore.makeTestFeedPost(it1) }
+            }?.let { it1 -> Firestore.makeUserTestPost(it1) }
         }
 
         return view

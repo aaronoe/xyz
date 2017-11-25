@@ -7,13 +7,28 @@ object AccountManager {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
     private var firebaseUser = firebaseAuth.currentUser
-    var user = firebaseUser?.let { User(it) }
+    var user : User? = null
 
-    fun isUserSet() = firebaseUser == null
+    init {
+        subscribeToUserUpdates()
+    }
+
+    fun isUserSet() = firebaseUser != null
 
     fun updateUser() {
         firebaseUser = firebaseAuth.currentUser
-        user = firebaseUser?.let { User(it) }
+        subscribeToUserUpdates()
+    }
+
+    private fun subscribeToUserUpdates() {
+        firebaseUser?.let {
+            Firestore.getUserReference(it)
+                    .addSnapshotListener { documentSnapshot, _ ->
+                        if (documentSnapshot.exists()) {
+                            user = documentSnapshot.toObject(User::class.java)
+                        }
+                    }
+        }
     }
 
 }

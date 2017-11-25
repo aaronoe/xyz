@@ -19,16 +19,22 @@ data class User @ParcelConstructor constructor(val userName : String,
                                                val email: String,
                                                val pictureUrl: String,
                                                val userId: String,
+                                               val postCount: Int,
                                                val followerCount: Int,
-                                               val followingCount: Int) {
+                                               val followingCount: Int,
+                                               val location: String,
+                                               val bio: String) {
 
     constructor() : this(
             userName = "",
             email = "",
             pictureUrl = "",
             userId = "",
+            postCount = 0,
             followingCount = 0,
-            followerCount = 0
+            followerCount = 0,
+            location = "",
+            bio = ""
     )
 
     /**
@@ -39,7 +45,10 @@ data class User @ParcelConstructor constructor(val userName : String,
             email = firebaseUser.email.toString(),
             pictureUrl = firebaseUser.photoUrl.toString(),
             userId = firebaseUser.uid,
+            postCount = 0,
             followerCount =  0,
-            followingCount = 0
+            followingCount = 0,
+            location = "",
+            bio = ""
     )
 }

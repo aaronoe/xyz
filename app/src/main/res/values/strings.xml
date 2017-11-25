@@ -15,4 +15,7 @@
   <string name="number_of_comments">%d Comments</string>
   <string name="number_of_likes">%d Likes</string>
   <string name="name_and_date">%1$s - %2$s</string>
+  <string name="posts">Posts</string>
+  <string name="followers">Followers</string>
+  <string name="following">Following</string>
 </resources>
