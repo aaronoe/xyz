@@ -12,9 +12,10 @@ object Firestore {
     private val USERS = "USERS"
     private val USER_FEED = "USER_FEED"
 
-    fun getUsersReference() : CollectionReference {
-        return FirebaseFirestore.getInstance().collection(USERS)
-    }
+    fun getUsersReference() : CollectionReference =
+            FirebaseFirestore
+                    .getInstance()
+                    .collection(USERS)
 
     fun saveUserAccount(user: User, completedListener: OnCompleteListener<Void>, failureListener: OnFailureListener) {
         FirebaseFirestore.getInstance()
