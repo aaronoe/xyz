@@ -14,6 +14,7 @@ object Firestore {
     private val USERS = "USERS"
     private val USER_FEED = "USER_FEED"
     private val USER_POSTS = "USER_POSTS"
+    private val USER_FOLLOWING = "USER_FOLLOWING"
 
     fun getUsersReference() : CollectionReference =
             FirebaseFirestore
@@ -77,6 +78,13 @@ object Firestore {
         return FirebaseFirestore.getInstance()
                 .collection(USERS)
                 .document(user.userId)
+    }
+
+    fun getUserFollowingReference(user : User) : CollectionReference {
+        return FirebaseFirestore.getInstance()
+                .collection(USERS)
+                .document(user.userId)
+                .collection(USER_FOLLOWING)
     }
 
 }

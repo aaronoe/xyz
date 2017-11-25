@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -12,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.widget.TextView
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
@@ -20,6 +20,7 @@ import com.bumptech.glide.request.transition.Transition
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.model.User
+import de.aaronoe.xyz.repository.AccountManager
 import de.aaronoe.xyz.utils.gone
 import de.aaronoe.xyz.utils.visible
 import de.hdodenhof.circleimageview.CircleImageView
