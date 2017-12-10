@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="match_parent"
+  android:layout_width="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <FrameLayout
+        android:id="@+id/new_post_photo_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.aaronoe.xyz.utils.SquareImageView
+          android:id="@+id/new_post_preview_iv"
+          android:src="@drawable/ic_mood_bad_black_24dp"
+          android:scaleType="centerCrop"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+
+        <LinearLayout
+          android:id="@+id/new_post_empty_container"
+          android:orientation="vertical"
+          android:background="@drawable/dashed_background"
+          android:gravity="center"
+          android:layout_margin="16dp"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+          <TextView
+            android:text="@string/select_photo_expl"
+            android:gravity="center"
+            android:drawableTop="@drawable/ic_add_a_photo_24dp"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+      </FrameLayout>
+
+      <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/new_post_description_edittext"
+        android:hint="@string/description"
+        app:met_maxCharacters="140"
+        app:met_baseColor="@color/colorPrimaryDark"
+        app:met_primaryColor="@color/colorAccent"
+        app:met_floatingLabel="normal"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+  </ScrollView>
+
+  <android.support.design.widget.FloatingActionButton
+    android:id="@+id/new_post_add_fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="16dp"
+    android:src="@drawable/ic_file_upload_24dp"
+    app:borderWidth="0dp"
+    app:elevation="6dp"
+    app:fabSize="normal"
+    app:pressedTranslationZ="6dp"
+    />
+
+</FrameLayout>

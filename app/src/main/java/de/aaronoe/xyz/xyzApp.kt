@@ -7,6 +7,14 @@ import com.google.firebase.FirebaseApp
 
 class xyzApp : Application() {
 
+    companion object {
+        lateinit var instance : xyzApp
+    }
+
+    init {
+        instance = this
+    }
+
     override fun onCreate() {
         super.onCreate()
         FirebaseApp.initializeApp(this)

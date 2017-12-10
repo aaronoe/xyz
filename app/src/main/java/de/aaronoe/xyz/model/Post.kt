@@ -11,7 +11,7 @@ import java.util.*
 data class Post(val id : String,
                 val author: User,
                 val type: PostType,
-                val mediaUrl: String,
+                var mediaUrl: String,
                 val numberOfLikes: Int,
                 val numberOfComments: Int,
                 val timestamp: Long,

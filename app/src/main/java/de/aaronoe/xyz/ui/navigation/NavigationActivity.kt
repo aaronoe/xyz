@@ -9,22 +9,21 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.repository.AccountManager
-import de.aaronoe.xyz.ui.feed.FeedFragment
 import de.aaronoe.xyz.ui.login.LoginActivity
-import org.jetbrains.anko.startActivity
+import java.lang.ref.WeakReference
 
-class NavigationActivity : AppCompatActivity() {
+class NavigationActivity : AppCompatActivity(), NavigationContract {
 
     @BindView(R.id.main_nav_bottom_nav)
     lateinit var navigation : BottomNavigationView
 
-    @BindView(R.id.main_nav_frame)
-    lateinit var frame : FrameLayout
+    private lateinit var navigator : Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
         ButterKnife.bind(this)
+        navigator = Navigator(supportFragmentManager, WeakReference(this))
 
         if (!AccountManager.isUserSet()) {
             // Go to login
@@ -34,21 +33,20 @@ class NavigationActivity : AppCompatActivity() {
         }
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        //navigation.selectedItemId = R.id.navigation_home
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.main_nav_frame, FeedFragment.newInstance())
-                        .commit()
+                navigator.goToFeed()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_search -> {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_add -> {
+                navigator.goToNewPost()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_activity -> {
@@ -61,4 +59,7 @@ class NavigationActivity : AppCompatActivity() {
         false
     }
 
+    override fun goToFeed() {
+        navigation.selectedItemId = R.id.navigation_home
+    }
 }

@@ -21,7 +21,7 @@ import de.aaronoe.xyz.utils.DateUtils
 import de.hdodenhof.circleimageview.CircleImageView
 
 
-class FeedAdapter(val context: Context) : RecyclerView.Adapter<FeedAdapter.FeedItemViewHolder>() {
+class FeedAdapter(private val context: Context) : RecyclerView.Adapter<FeedAdapter.FeedItemViewHolder>() {
 
     private var postList: List<Post>? = null
     private var lastPosition = -1

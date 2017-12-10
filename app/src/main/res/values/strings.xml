@@ -18,4 +18,6 @@
   <string name="posts">Posts</string>
   <string name="followers">Followers</string>
   <string name="following">Following</string>
+  <string name="select_photo_expl">Click here to select or capture a photo</string>
+  <string name="description">Description</string>
 </resources>

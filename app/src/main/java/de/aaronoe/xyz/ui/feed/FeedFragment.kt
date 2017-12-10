@@ -39,8 +39,8 @@ class FeedFragment : Fragment() {
     lateinit var addFab : FloatingActionButton
 
     private lateinit var viewModel : FeedViewModel
-    private val layoutManager by lazy { LinearLayoutManager(this@FeedFragment.context, LinearLayoutManager.VERTICAL, false) }
-    private val feedAdapter by lazy { this@FeedFragment.context?.let { FeedAdapter(it) } }
+    private lateinit var feedAdapter : FeedAdapter
+    private lateinit var layoutManager : LinearLayoutManager
 
     private fun updateFeedList(posts: List<Post>) {
         if (posts.isEmpty()) {
@@ -52,7 +52,7 @@ class FeedFragment : Fragment() {
             emptyContainer.gone()
             postsRv.visible()
 
-            feedAdapter?.setPosts(posts)
+            feedAdapter.setPosts(posts)
         }
     }
 
@@ -62,13 +62,15 @@ class FeedFragment : Fragment() {
 
         ButterKnife.bind(this@FeedFragment, view)
 
+        context?.let { feedAdapter = FeedAdapter(it) }
+        layoutManager = LinearLayoutManager(this@FeedFragment.context, LinearLayoutManager.VERTICAL, false)
+        postsRv.layoutManager = layoutManager
+        postsRv.adapter = feedAdapter
+
         viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
         viewModel.posts.observe(this, Observer<List<Post>> {
             it?.let { it1 -> updateFeedList(it1) }
         })
-
-        postsRv.layoutManager = layoutManager
-        postsRv.adapter = feedAdapter
 
         viewModel.subscribeToPosts()
 
@@ -77,13 +79,14 @@ class FeedFragment : Fragment() {
                 Post(it1,
                         "https://images.unsplash.com/photo-1494516192674-b82b5f1e61dc?auto=format&fit=crop&w=633&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
                         "Aaron told Floyd that he is indeed a very good boy. Floyd likes to watch Football with his two daddies")
-            }?.let { it1 -> Firestore.makeUserTestPost(it1) }
+            }?.let { it1 -> Firestore.makePostForUser(it1) }
         }
 
         return view
     }
 
     companion object {
+        const val TAG = "FEED_FRAGMENT"
         fun newInstance() = FeedFragment()
     }
 
