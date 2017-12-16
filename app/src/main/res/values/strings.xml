@@ -20,4 +20,6 @@
   <string name="following">Following</string>
   <string name="select_photo_expl">Click here to select or capture a photo</string>
   <string name="description">Description</string>
+  <string name="transition_key_post_image">TRANSITION_POST_IMAGE</string>
+  <string name="transition_key_post_container">TRANSITION_KEY_POST_CONTAINER</string>
 </resources>

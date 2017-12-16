@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.widget.FrameLayout
 import butterknife.BindView
 import butterknife.ButterKnife
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.repository.AccountManager
 import de.aaronoe.xyz.ui.login.LoginActivity
+import de.aaronoe.xyz.utils.BottomNavigationViewHelper
 import java.lang.ref.WeakReference
 
 class NavigationActivity : AppCompatActivity(), NavigationContract {
@@ -33,7 +33,12 @@ class NavigationActivity : AppCompatActivity(), NavigationContract {
         }
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        //navigation.selectedItemId = R.id.navigation_home
+        if (savedInstanceState == null) {
+            navigator.goToFeed()
+        }
+
+        BottomNavigationViewHelper.disableShiftMode(navigation)
+
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -53,6 +58,7 @@ class NavigationActivity : AppCompatActivity(), NavigationContract {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
+                navigator.goToUser()
                 return@OnNavigationItemSelectedListener true
             }
         }

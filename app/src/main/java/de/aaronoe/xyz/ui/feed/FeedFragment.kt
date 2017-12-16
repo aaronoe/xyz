@@ -68,11 +68,11 @@ class FeedFragment : Fragment() {
         postsRv.adapter = feedAdapter
 
         viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
+        viewModel.subscribeToPosts()
         viewModel.posts.observe(this, Observer<List<Post>> {
             it?.let { it1 -> updateFeedList(it1) }
         })
 
-        viewModel.subscribeToPosts()
 
         addFab.setOnClickListener {
             AccountManager.user?.let { it1 ->

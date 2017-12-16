@@ -4,8 +4,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import de.aaronoe.xyz.R
+import de.aaronoe.xyz.repository.AccountManager
 import de.aaronoe.xyz.ui.feed.FeedFragment
 import de.aaronoe.xyz.ui.newpost.NewPostFragment
+import de.aaronoe.xyz.ui.userdetail.UserFragment
 import java.lang.ref.WeakReference
 
 class Navigator(private val fragmentManager: FragmentManager,
@@ -13,6 +15,7 @@ class Navigator(private val fragmentManager: FragmentManager,
 
     private val feedFragment by lazy { FeedFragment.newInstance() }
     private val newPostFragment by lazy { NewPostFragment.newInstance() }
+    private val userFragment by lazy { UserFragment.newInstance(AccountManager.user!!) }
 
     fun goToFeed() {
         check(activity.get() is NavigationActivity)
@@ -28,7 +31,15 @@ class Navigator(private val fragmentManager: FragmentManager,
         check(activity.get() is NavigationActivity)
         val fragment = fragmentManager.findFragmentByTag(NewPostFragment.TAG)
         val postFragment = fragment ?: newPostFragment
+        (activity.get() as? NavigationContract)?.let { (postFragment as NewPostFragment).router = it }
         replaceFragment(postFragment, NewPostFragment.TAG)
+    }
+
+    fun goToUser() {
+        check(activity.get() is NavigationActivity)
+        val fragment = fragmentManager.findFragmentByTag(UserFragment.TAG)
+        val userFragment : Fragment = fragment ?: userFragment
+        replaceFragment(userFragment, UserFragment.TAG)
     }
 
     private fun replaceFragment(fragment: Fragment, tag: String) {

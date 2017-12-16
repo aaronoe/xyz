@@ -92,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         val user = firebaseAuth.currentUser
                         if (user != null && user.photoUrl != null) {
-                            //us.(FirebaseInstanceId.getInstance().token)
+                            //us.(FirebaseInstanceId.newInstance().token)
                             // TODO: messaging token
                             Firestore.saveUserAccount(User(user),
                                     OnCompleteListener {

@@ -1,6 +1,8 @@
 package de.aaronoe.xyz.model
 
 import de.aaronoe.xyz.model.enums.PostType
+import org.parceler.Parcel
+import org.parceler.ParcelConstructor
 import java.util.*
 
 /**
@@ -8,14 +10,15 @@ import java.util.*
  * - Likes
  * - Comments
  */
-data class Post(val id : String,
-                val author: User,
-                val type: PostType,
-                var mediaUrl: String,
-                val numberOfLikes: Int,
-                val numberOfComments: Int,
-                val timestamp: Long,
-                val caption: String) {
+@Parcel(Parcel.Serialization.BEAN)
+data class Post @ParcelConstructor constructor(val id: String,
+                                               val author: User,
+                                               val type: PostType,
+                                               var mediaUrl: String,
+                                               val numberOfLikes: Int,
+                                               val numberOfComments: Int,
+                                               val timestamp: Long,
+                                               val caption: String) {
 
     /**
      * This empty constructor is required for Firestore's reflection initialization

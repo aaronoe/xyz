@@ -19,6 +19,7 @@ import de.aaronoe.xyz.repository.Firestore
 import de.aaronoe.xyz.ui.navigation.NavigationContract
 import de.aaronoe.xyz.utils.SquareImageView
 import de.aaronoe.xyz.utils.gone
+import de.aaronoe.xyz.utils.visible
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
@@ -78,13 +79,23 @@ class NewPostFragment : Fragment() {
                 .into(previewPhotoIv)
     }
 
+    override fun onResume() {
+        super.onResume()
+        imageFile?.let {
+            loadPreviewImage(it)
+        }
+    }
+
     private fun finalizePost() {
         if (imageFile == null) return
         val description = descriptionEditText.text.toString()
         AccountManager.user?.let {
             Firestore.createNewPost(it, description, imageFile!!)
         }
-
+        descriptionEditText.text.clear()
+        previewPhotoIv.setImageResource(android.R.color.transparent)
+        imageFile = null
+        emptyContainer.visible()
         router.goToFeed()
     }
 

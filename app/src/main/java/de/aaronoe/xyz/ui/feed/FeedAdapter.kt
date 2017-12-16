@@ -3,6 +3,7 @@ package de.aaronoe.xyz.ui.feed
 import android.app.Activity
 import android.content.Context
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.model.Post
+import de.aaronoe.xyz.ui.postdetail.PostDetailActivity
 import de.aaronoe.xyz.ui.userdetail.UserActivity
 import de.aaronoe.xyz.utils.DateUtils
 import de.hdodenhof.circleimageview.CircleImageView
@@ -55,6 +57,8 @@ class FeedAdapter(private val context: Context) : RecyclerView.Adapter<FeedAdapt
 
     inner class FeedItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        @BindView(R.id.post_item_card)
+        lateinit var postContainer : CardView
         @BindView(R.id.feed_item_profile_name_tv)
         lateinit var profileNameTv : TextView
         @BindView(R.id.feed_item_profile_picture_iv)
@@ -87,6 +91,12 @@ class FeedAdapter(private val context: Context) : RecyclerView.Adapter<FeedAdapt
             Glide.with(context)
                     .load(post.mediaUrl)
                     .into(postPictureIv)
+
+            itemView.setOnClickListener {
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        context as Activity, postContainer, context.getString(R.string.transition_key_post_container))
+                context.startActivity(PostDetailActivity.getIntent(context, post), options.toBundle())
+            }
 
             profilePictureIv.setOnClickListener {
                 Toast.makeText(context, "Clicked on ${post.author.userName}", Toast.LENGTH_SHORT).show()

@@ -7,13 +7,12 @@ import de.aaronoe.xyz.model.User
 object AccountManager {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
-    private var firebaseUser = firebaseAuth.currentUser
     private val followingLiveData = MutableLiveData<List<User>>()
-    var user : User? = null
+    private var firebaseUser = firebaseAuth.currentUser
+    var user : User? = firebaseUser?.let { User(it) }
 
     init {
-        subscribeToUserUpdates()
-        subscribeToUserFollowingUpdates()
+        updateUser()
     }
 
     fun isUserSet() = firebaseUser != null

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="de.aaronoe.xyz">
 
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
   <application
     android:allowBackup="true"
@@ -19,10 +19,10 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-
     <activity android:name=".ui.login.LoginActivity"/>
     <activity android:name=".ui.userdetail.UserActivity"/>
-
+    <activity android:name=".ui.postdetail.PostDetailActivity">
+    </activity>
   </application>
 
 </manifest>
