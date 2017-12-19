@@ -13,15 +13,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import de.aaronoe.rxfirestore.subscribeDefault
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.model.User
 import de.aaronoe.xyz.repository.AccountManager
-import de.aaronoe.xyz.repository.Firestore
+import de.aaronoe.xyz.repository.XyzRepository
 import de.aaronoe.xyz.ui.navigation.NavigationActivity
 import org.jetbrains.anko.*
 
@@ -94,17 +93,16 @@ class LoginActivity : AppCompatActivity() {
                         if (user != null && user.photoUrl != null) {
                             //us.(FirebaseInstanceId.newInstance().token)
                             // TODO: messaging token
-                            Firestore.saveUserAccount(User(user),
-                                    OnCompleteListener {
+                            XyzRepository.getCreateUserAccountCompletable(User(user))
+                                    .subscribeDefault({
                                         toast("Success")
                                         AccountManager.updateUser()
                                         progressDialog.cancel()
                                         updateUI(user)
-                            },
-                                    OnFailureListener {
+                                    }, {
                                         toast("Failure")
                                         progressDialog.cancel()
-                            })
+                                    })
                         }
                     } else {
                         // If sign in fails, display a message to the user.

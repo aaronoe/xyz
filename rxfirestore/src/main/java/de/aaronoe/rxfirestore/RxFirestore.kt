@@ -1,15 +1,25 @@
 package de.aaronoe.rxfirestore
 
-import com.google.firebase.firestore.*
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import io.reactivex.*
 
+class NoSuchDocumentException : Exception("There is no document at the given DocumentReference")
 
 inline fun <reified T> DocumentReference.getObservable(): Observable<T> {
     return Observable.create { emitter ->
         val listener = addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {
                 if (documentSnapshot.exists()) {
-                    emitter.onNext(documentSnapshot.toObject(T::class.java))
+                    try {
+                        emitter.onNext(documentSnapshot.toObject(T::class.java))
+                    } catch (e : Exception) {
+                        emitter.onError(e)
+                    }
+                } else {
+                    emitter.onError(NoSuchDocumentException())
                 }
             }
             firebaseFirestoreException?.let { emitter.onError(it) }
@@ -23,7 +33,13 @@ inline fun <reified T> DocumentReference.getFlowable(backpressureStrategy: Backp
         val listener = addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {
                 if (documentSnapshot.exists()) {
-                    emitter.onNext(documentSnapshot.toObject(T::class.java))
+                    try {
+                        emitter.onNext(documentSnapshot.toObject(T::class.java))
+                    } catch (e : Exception) {
+                        emitter.onError(e)
+                    }
+                } else {
+                    emitter.onError(NoSuchDocumentException())
                 }
             }
             firebaseFirestoreException?.let { emitter.onError(it) }
@@ -35,7 +51,17 @@ inline fun <reified T> DocumentReference.getFlowable(backpressureStrategy: Backp
 inline fun <reified T> DocumentReference.getSingle() : Single<T> {
     return Single.create { emitter ->
         get()
-                .addOnSuccessListener { if (it.exists()) emitter.onSuccess(it.toObject(T::class.java)) }
+                .addOnSuccessListener {
+                    if (it.exists()) {
+                        try {
+                            emitter.onSuccess(it.toObject(T::class.java))
+                        } catch (e : Exception) {
+                            emitter.onError(e)
+                        }
+                    } else {
+                        emitter.onError(NoSuchDocumentException())
+                    }
+                }
                 .addOnFailureListener { emitter.onError(it) }
     }
 }
@@ -49,7 +75,6 @@ inline fun <reified T> CollectionReference.getObservable() : Observable<List<T>>
                 } catch (e : Exception) {
                     emitter.onError(e)
                 }
-                //emitter.onNext(it.filter { it.exists() }.map { it.toObject(T::class.java) })
             }
             firebaseFirestoreException?.let { emitter.onError(it) }
         }
@@ -61,7 +86,11 @@ inline fun <reified T> CollectionReference.getFlowable(backpressureStrategy: Bac
     return Flowable.create( { emitter ->
         val listener = addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
-                emitter.onNext(it.filter { it.exists() }.map { it.toObject(T::class.java) })
+                try {
+                    emitter.onNext(it.toObjects(T::class.java))
+                } catch (e : Exception) {
+                    emitter.onError(e)
+                }
             }
             firebaseFirestoreException?.let { emitter.onError(it) }
         }
@@ -73,7 +102,11 @@ inline fun <reified T> Query.getObservable() : Observable<List<T>> {
     return Observable.create { emitter ->
         val listener = addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
-                emitter.onNext(it.filter { it.exists() }.map { it.toObject(T::class.java) })
+                try {
+                    emitter.onNext(it.toObjects(T::class.java))
+                } catch (e : Exception) {
+                    emitter.onError(e)
+                }
             }
             firebaseFirestoreException?.let { emitter.onError(it) }
         }
@@ -85,7 +118,13 @@ inline fun <reified T> Query.getObservable() : Observable<List<T>> {
 inline fun <reified T> CollectionReference.getSingle() : Single<List<T>> {
     return Single.create { emitter ->
         get()
-                .addOnSuccessListener { emitter.onSuccess(it.filter { it.exists() }.map { it.toObject(T::class.java) }) }
+                .addOnSuccessListener {
+                    try {
+                        emitter.onSuccess(it.toObjects(T::class.java))
+                    } catch (e : Exception) {
+                        emitter.onError(e)
+                    }
+                }
                 .addOnFailureListener { emitter.onError(it) }
     }
 }
@@ -94,7 +133,13 @@ inline fun <reified T> CollectionReference.getSingle() : Single<List<T>> {
 inline fun <reified T> Query.getSingle() : Single<List<T>> {
     return Single.create { emitter ->
         get()
-                .addOnSuccessListener { emitter.onSuccess(it.filter { it.exists() }.map { it.toObject(T::class.java) }) }
+                .addOnSuccessListener {
+                    try {
+                        emitter.onSuccess(it.toObjects(T::class.java))
+                    } catch (e : Exception) {
+                        emitter.onError(e)
+                    }
+                }
                 .addOnFailureListener { emitter.onError(it) }
     }
 }
@@ -112,5 +157,12 @@ fun DocumentReference.deleteDocument() : Completable {
         delete()
                 .addOnCompleteListener { emitter.onComplete() }
                 .addOnFailureListener { emitter.onError(it) }
+    }
+}
+
+fun <T : Any> Task<T>.getCompletable(): Completable {
+    return Completable.create { emitter ->
+        addOnSuccessListener { emitter.onComplete() }
+        addOnFailureListener { emitter.onError(it) }
     }
 }

@@ -2,6 +2,8 @@ package de.aaronoe.xyz.repository
 
 import android.arch.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import de.aaronoe.rxfirestore.getObservable
+import de.aaronoe.rxfirestore.subscribeDefault
 import de.aaronoe.xyz.model.User
 
 object AccountManager {
@@ -26,28 +28,16 @@ object AccountManager {
     private fun subscribeToUserUpdates() {
         firebaseUser?.let {
             Firestore.getUserReference(it)
-                    .addSnapshotListener { documentSnapshot, _ ->
-                        if (documentSnapshot.exists()) {
-                            user = documentSnapshot.toObject(User::class.java)
-                        }
-                    }
+                    .getObservable<User>()
+                    .subscribeDefault { user = it }
         }
     }
 
     private fun subscribeToUserFollowingUpdates() {
         firebaseUser?.let {
             Firestore.getUserFollowingReference(User(it))
-                    .addSnapshotListener { querySnapshot, _ ->
-                        querySnapshot?.let {
-                            val postList  = mutableListOf<User>()
-                            it.forEach {
-                                if (it.exists()) {
-                                    postList.add(it.toObject(User::class.java))
-                                }
-                            }
-                            followingLiveData.value = postList
-                        }
-                    }
+                    .getObservable<User>()
+                    .subscribeDefault { followingLiveData.value = it }
         }
     }
 
