@@ -35,8 +35,6 @@ class FeedFragment : Fragment() {
     lateinit var emptyContainer : ViewGroup
     @BindView(R.id.feed_list_pb)
     lateinit var feedPb : ProgressBar
-    @BindView(R.id.fab_add)
-    lateinit var addFab : FloatingActionButton
 
     private lateinit var viewModel : FeedViewModel
     private lateinit var feedAdapter : FeedAdapter
@@ -72,15 +70,6 @@ class FeedFragment : Fragment() {
         viewModel.posts.observe(this, Observer<List<Post>> {
             it?.let { it1 -> updateFeedList(it1) }
         })
-
-
-        addFab.setOnClickListener {
-            AccountManager.user?.let { it1 ->
-                Post(it1,
-                        "https://images.unsplash.com/photo-1494516192674-b82b5f1e61dc?auto=format&fit=crop&w=633&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
-                        "Aaron told Floyd that he is indeed a very good boy. Floyd likes to watch Football with his two daddies")
-            }?.let { it1 -> Firestore.makePostForUser(it1) }
-        }
 
         return view
     }

@@ -63,6 +63,13 @@ object Firestore {
         FirebaseFirestore.getInstance()
                 .collection(USERS)
                 .document(post.author.userId)
+                .collection(USER_FEED)
+                .document(post.id)
+                .set(post)
+
+        FirebaseFirestore.getInstance()
+                .collection(USERS)
+                .document(post.author.userId)
                 .update("postCount", post.author.postCount + 1)
     }
 
@@ -104,6 +111,21 @@ object Firestore {
                     post.mediaUrl = it.downloadUrl.toString()
                     makePostForUser(post)
                 }
+    }
+
+    fun getCommentsReference(post : Post): CollectionReference {
+        return FirebaseFirestore.getInstance()
+                .collection(USERS)
+                .document(post.author.userId)
+                .collection(USER_POSTS)
+    }
+
+    fun getPostReference(post: Post): DocumentReference {
+        return FirebaseFirestore.getInstance()
+                .collection(USERS)
+                .document(post.author.userId)
+                .collection(USER_POSTS)
+                .document(post.id)
     }
 
 }

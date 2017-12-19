@@ -224,3 +224,4 @@ cmake-build-debug/
 /gradle.properties
 /app/google-services.json
 !/app/src/main/java/de/aaronoe/xyz/ui/feed/FeedViewModel.kt
+!/app/src/main/java/de/aaronoe/xyz/ui/postdetail/PostDetailActivity.kt
