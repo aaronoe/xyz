@@ -5,52 +5,53 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-fun <T> Observable<T>.subscribeDefault(onNext: (T) -> Unit, onError: (Throwable) -> Unit) {
+fun <T> Observable<T>.subscribeDefault(onNext: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
     subscribeOn(Schedulers.io())
     observeOn(AndroidSchedulers.mainThread())
-    subscribe(onNext, onError)
+    return subscribe(onNext, onError)
 }
 
-fun <T> Single<T>.subscribeDefault(onSuccess: (T) -> Unit, onError: (Throwable) -> Unit) {
+fun <T> Single<T>.subscribeDefault(onSuccess: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
     subscribeOn(Schedulers.io())
     observeOn(AndroidSchedulers.mainThread())
-    subscribe(onSuccess, onError)
+    return subscribe(onSuccess, onError)
 }
 
-fun <T> Flowable<T>.subscribeDefault(onSuccess: (T) -> Unit, onError: (Throwable) -> Unit) {
+fun <T> Flowable<T>.subscribeDefault(onSuccess: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
     subscribeOn(Schedulers.io())
     observeOn(AndroidSchedulers.mainThread())
-    subscribe(onSuccess, onError)
+    return subscribe(onSuccess, onError)
 }
 
-fun Completable.subscribeDefault(onComplete: () -> Unit, onError: (Throwable) -> Unit) {
+fun Completable.subscribeDefault(onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
     subscribeOn(Schedulers.io())
     observeOn(AndroidSchedulers.mainThread())
-    subscribe(onComplete, onError)
+    return subscribe(onComplete, onError)
 }
 
-fun <T> Observable<T>.subscribeDefault(onNext: (T) -> Unit) {
+fun <T> Observable<T>.subscribeDefault(onNext: (T) -> Unit): Disposable {
     subscribeOn(Schedulers.io())
     observeOn(AndroidSchedulers.mainThread())
-    subscribe(onNext)
+    return subscribe(onNext)
 }
 
-fun <T> Single<T>.subscribeDefault(onSuccess: (T) -> Unit) {
+fun <T> Single<T>.subscribeDefault(onSuccess: (T) -> Unit): Disposable {
     subscribeOn(Schedulers.io())
     observeOn(AndroidSchedulers.mainThread())
-    subscribe(onSuccess)
+    return subscribe(onSuccess)
 }
 
-fun <T> Flowable<T>.subscribeDefault(onSuccess: (T) -> Unit) {
+fun <T> Flowable<T>.subscribeDefault(onSuccess: (T) -> Unit): Disposable {
     subscribeOn(Schedulers.io())
     observeOn(AndroidSchedulers.mainThread())
-    subscribe(onSuccess)
+    return subscribe(onSuccess)
 }
 
-fun Completable.subscribeDefault(onComplete: () -> Unit) {
+fun Completable.subscribeDefault(onComplete: () -> Unit): Disposable {
     subscribeOn(Schedulers.io())
     observeOn(AndroidSchedulers.mainThread())
-    subscribe(onComplete)
+    return subscribe(onComplete)
 }

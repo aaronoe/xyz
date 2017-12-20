@@ -4,10 +4,11 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
-import com.google.firebase.firestore.Query
+import de.aaronoe.rxfirestore.subscribeDefault
 import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.model.User
-import de.aaronoe.xyz.repository.Firestore
+import de.aaronoe.xyz.repository.XyzRepository
+import io.reactivex.disposables.Disposable
 
 /**
  *
@@ -26,32 +27,28 @@ class UserDetailViewModel(application: Application) : AndroidViewModel(applicati
     val followingCount = ObservableField<String>()
     val followerCount = ObservableField<String>()
 
+    private var postsDisposable : Disposable? = null
+    private var userDisposable : Disposable? = null
+
     fun refreshUserPosts(user : User) {
-        Firestore.getPostsForUser(user)
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .addSnapshotListener { querySnapshot, _ ->
-                    querySnapshot?.let {
-                        val postList  = mutableListOf<Post>()
-                        it.forEach {
-                            if (it.exists()) {
-                                postList.add(it.toObject(Post::class.java))
-                            }
-                        }
-                        postsLiveData.value = postList
-                    }
-                }
+        postsDisposable = XyzRepository
+                .getPostsForUserObservable(user)
+                .subscribeDefault { postsLiveData.value = it }
     }
 
     fun refreshUser(user : User) {
-        Firestore.getUserReference(user)
-                .addSnapshotListener { documentSnapshot, _ ->
-                    if (documentSnapshot.exists()) {
-                        documentSnapshot.toObject(User::class.java).run {
-                            userLiveData.value = this
-                            setUser(this)
-                        }
-                    }
+        userDisposable = XyzRepository
+                .getUserObservable(user)
+                .subscribeDefault {
+                    userLiveData.value = it
+                    setUser(it)
                 }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        postsDisposable?.dispose()
+        userDisposable?.dispose()
     }
 
     fun setUser(user: User) {
