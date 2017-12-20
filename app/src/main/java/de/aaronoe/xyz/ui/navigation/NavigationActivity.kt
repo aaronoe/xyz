@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
 import butterknife.BindView
 import butterknife.ButterKnife
 import de.aaronoe.xyz.R
-import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.repository.AccountManager
-import de.aaronoe.xyz.repository.Firestore
 import de.aaronoe.xyz.ui.login.LoginActivity
 import de.aaronoe.xyz.utils.BottomNavigationViewHelper
 import java.lang.ref.WeakReference

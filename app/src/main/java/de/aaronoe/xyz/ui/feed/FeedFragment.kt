@@ -4,7 +4,6 @@ package de.aaronoe.xyz.ui.feed
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,8 +15,6 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.model.Post
-import de.aaronoe.xyz.repository.AccountManager
-import de.aaronoe.xyz.repository.Firestore
 import de.aaronoe.xyz.utils.gone
 import de.aaronoe.xyz.utils.visible
 

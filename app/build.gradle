@@ -70,6 +70,7 @@ kapt {
 def anko_version = "0.10.2"
 
 dependencies {
+    implementation project(':rxfirestore')
 
     // Databinding
     kapt 'com.android.databinding:compiler:3.0.1'
@@ -101,16 +102,20 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:2.1.1"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
     // Parceler
     implementation 'org.parceler:parceler-api:1.1.9'
     kapt 'org.parceler:parceler:1.1.9'
 
     // Firebase
-    implementation 'com.google.android.gms:play-services-auth:11.6.2'
-    implementation 'com.google.firebase:firebase-auth:11.6.2'
-    implementation 'com.google.firebase:firebase-firestore:11.6.2'
-    implementation 'com.google.firebase:firebase-storage:11.6.2'
-    implementation 'com.google.firebase:firebase-messaging:11.6.2'
+    implementation 'com.google.android.gms:play-services-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-firestore:11.8.0'
+    implementation 'com.google.firebase:firebase-storage:11.8.0'
+    implementation 'com.google.firebase:firebase-messaging:11.8.0'
 
     // UI Widgets
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'

@@ -10,13 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.rengwuxian.materialedittext.MaterialEditText
+import de.aaronoe.rxfirestore.subscribeDefault
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.repository.AccountManager
-import de.aaronoe.xyz.repository.Firestore
+import de.aaronoe.xyz.repository.XyzRepository
 import de.aaronoe.xyz.ui.navigation.NavigationContract
 import de.aaronoe.xyz.utils.SquareImageView
 import de.aaronoe.xyz.utils.gone
@@ -91,13 +93,16 @@ class NewPostFragment : Fragment() {
         if (imageFile == null) return
         val description = descriptionEditText.text.toString()
         AccountManager.user?.let {
-            Firestore.createNewPost(it, description, imageFile!!)
+            XyzRepository.createNewPost(it, description, imageFile!!)
+                    .subscribeDefault {
+                        descriptionEditText.text.clear()
+                        previewPhotoIv.setImageResource(android.R.color.transparent)
+                        imageFile = null
+                        emptyContainer.visible()
+                        router.goToFeed()
+                        Toast.makeText(this@NewPostFragment.activity, "Post uploaded", Toast.LENGTH_SHORT).show()
+                    }
         }
-        descriptionEditText.text.clear()
-        previewPhotoIv.setImageResource(android.R.color.transparent)
-        imageFile = null
-        emptyContainer.visible()
-        router.goToFeed()
         view?.let { Snackbar.make(it, "Uploading Image", Snackbar.LENGTH_SHORT).show() }
     }
 
