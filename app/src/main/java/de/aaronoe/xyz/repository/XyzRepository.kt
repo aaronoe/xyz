@@ -4,10 +4,7 @@ import android.net.Uri
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import de.aaronoe.rxfirestore.getCompletable
-import de.aaronoe.rxfirestore.getObservable
-import de.aaronoe.rxfirestore.setDocument
-import de.aaronoe.rxfirestore.toSingle
+import de.aaronoe.rxfirestore.*
 import de.aaronoe.xyz.model.Comment
 import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.model.User

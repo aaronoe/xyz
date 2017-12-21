@@ -1,6 +1,5 @@
 package de.aaronoe.xyz.ui.login
 
-import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +12,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -22,10 +23,14 @@ import de.aaronoe.xyz.model.User
 import de.aaronoe.xyz.repository.AccountManager
 import de.aaronoe.xyz.repository.XyzRepository
 import de.aaronoe.xyz.ui.navigation.NavigationActivity
+import io.reactivex.Single
 import org.jetbrains.anko.*
 
-@SuppressLint("Registered")
 class LoginActivity : AppCompatActivity() {
+
+    companion object {
+        private const val RC_SIGN_IN = 9001
+    }
 
     @BindView(R.id.sign_in_button)
     lateinit var signInButton: SignInButton
@@ -33,7 +38,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog
     private lateinit var googleApiClient: GoogleApiClient
     private lateinit var firebaseAuth: FirebaseAuth
-    private val RC_SIGN_IN = 9001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,38 +89,35 @@ class LoginActivity : AppCompatActivity() {
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+
         firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        val user = firebaseAuth.currentUser
-                        if (user != null && user.photoUrl != null) {
-                            //us.(FirebaseInstanceId.newInstance().token)
-                            // TODO: messaging token
-                            XyzRepository.getCreateUserAccountCompletable(User(user))
-                                    .subscribeDefault({
-                                        toast("Success")
-                                        AccountManager.updateUser()
-                                        progressDialog.cancel()
-                                        updateUI(user)
-                                    }, {
-                                        toast("Failure")
-                                        progressDialog.cancel()
-                                    })
+                .loginSingle()
+                .flatMapCompletable { XyzRepository.getCreateUserAccountCompletable(User(it.user)) }
+                .subscribeDefault(
+                        onComplete = {
+                            toast("Success")
+                            AccountManager.updateUser()
+                            progressDialog.cancel()
+                            updateUI(firebaseAuth.currentUser)
+                        },
+                        onError = {
+                            toast("Failure")
+                            progressDialog.cancel()
                         }
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        progressDialog.cancel()
-                        toast("Auth Failed")
-                        updateUI(null)
-                    }
-                }
+                )
     }
 
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
             finish()
             startActivity(intentFor<NavigationActivity>().singleTop().clearTop())
+        }
+    }
+
+    private fun Task<AuthResult>.loginSingle() : Single<AuthResult> {
+        return Single.create { emitter ->
+            addOnSuccessListener { emitter.onSuccess(it) }
+            addOnFailureListener { emitter.onError(it) }
         }
     }
 
