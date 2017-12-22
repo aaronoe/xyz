@@ -7,6 +7,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.animation.AnimationUtils
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.databinding.ActivityPostDetailBinding
 import de.aaronoe.xyz.model.Post
@@ -22,6 +23,7 @@ class PostDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bindings = DataBindingUtil.setContentView(this, R.layout.activity_post_detail)
         viewModel = ViewModelProviders.of(this).get(PostDetailViewModel::class.java)
+        bindings.viewModel = viewModel
 
         viewModel.post.observe(this, Observer {
             it?.apply {
@@ -40,6 +42,11 @@ class PostDetailActivity : AppCompatActivity() {
     private fun rebindPost(post: Post) {
         bindings.post = post
         bindings.executePendingBindings()
+    }
+
+    override fun onBackPressed() {
+        viewModel.itemAnimation.set(AnimationUtils.loadAnimation(this, R.anim.bottom_down))
+        super.onBackPressed()
     }
 
     companion object Factory {

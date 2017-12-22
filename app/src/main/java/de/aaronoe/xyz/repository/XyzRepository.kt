@@ -4,7 +4,10 @@ import android.net.Uri
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import de.aaronoe.rxfirestore.*
+import de.aaronoe.rxfirestore.getCompletable
+import de.aaronoe.rxfirestore.getObservable
+import de.aaronoe.rxfirestore.setDocument
+import de.aaronoe.rxfirestore.toSingle
 import de.aaronoe.xyz.model.Comment
 import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.model.User
@@ -60,7 +63,8 @@ object XyzRepository {
             reference.child("images/${post.id}/${post.timestamp}.jpg")
         }
 
-        return Compressor(xyzApp.instance).compressToFileAsFlowable(localFile).singleOrError()
+        return Compressor(xyzApp.instance).compressToFileAsFlowable(localFile)
+                .singleOrError()
                 .flatMap {
                     fileRef.putFile(Uri.fromFile(it)).toSingle()
                 }
@@ -71,6 +75,11 @@ object XyzRepository {
                             Firestore.getUserFeedPostReference(post).setDocument(post),
                             Firestore.getUserReference(post.author).update("postCount", post.author.postCount + 1).getCompletable())
                 }
+    }
+
+    fun postNewComment(post: Post, comment: Comment) : Completable {
+        return Firestore.getCommentReference(post, comment)
+                .setDocument(comment)
     }
 
 }

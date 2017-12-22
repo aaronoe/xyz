@@ -55,3 +55,9 @@ fun Completable.subscribeDefault(onComplete: () -> Unit): Disposable {
     observeOn(AndroidSchedulers.mainThread())
     return subscribe(onComplete)
 }
+
+fun <T> Single<T>.subscribeComputation(onSuccess: (T) -> Unit): Disposable {
+    subscribeOn(Schedulers.computation())
+    observeOn(AndroidSchedulers.mainThread())
+    return subscribe(onSuccess)
+}

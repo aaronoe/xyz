@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import de.aaronoe.xyz.model.Comment
 import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.model.User
 
@@ -71,6 +72,16 @@ object Firestore {
                 .document(post.author.userId)
                 .collection(USER_FEED)
                 .document(post.id)
+    }
+
+    fun getCommentReference(post: Post, comment: Comment) : DocumentReference {
+        return FirebaseFirestore.getInstance()
+                .collection(USERS)
+                .document(post.author.userId)
+                .collection(USER_POSTS)
+                .document(post.id)
+                .collection(POST_COMMENTS)
+                .document(comment.id)
     }
 
 }
