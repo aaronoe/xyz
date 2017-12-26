@@ -1,195 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<com.commit451.elasticdragdismisslayout.ElasticDragDismissFrameLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/draggable_frame"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  >
+  android:orientation="vertical"
+  app:dragDismissDistance="112dp"
+  app:dragDismissScale="0.95">
 
-  <android.support.design.widget.AppBarLayout
-    android:id="@+id/app_bar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      app:layout_scrollFlags="scroll|snap">
-
-      <android.support.v7.widget.Toolbar
-        android:id="@+id/user_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"/>
-
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-          android:id="@+id/user_photo_iv"
-          android:transitionName="@string/user_picture_transition"
-          android:layout_width="72dp"
-          android:layout_height="72dp"
-          android:elevation="8dp"
-          android:layout_gravity="center"/>
-
-        <TextView
-          android:id="@+id/user_name_tv"
-          style="@style/TextAppearance.AppCompat.Body1"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="8dp"
-          android:textSize="20sp"
-          tools:text="Aaron Oertel"/>
-
-        <TextView
-          android:id="@+id/user_location_tv"
-          tools:text="Ventura, California"
-          android:textSize="13sp"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"/>
-
-        <View
-          android:layout_margin="16dp"
-          android:background="#8A000000"
-          android:layout_width="40dp"
-          android:layout_height="1dp" />
-
-        <TextView
-          android:id="@+id/user_bio_tv"
-          tools:text="Bacon ipsum dolor amet kevin sirloin fatback doner cupim tri-tip. Biltong spare ribs jowl tail,"
-          android:textAlignment="center"
-          android:layout_marginStart="32dp"
-          android:layout_marginEnd="32dp"
-          android:layout_marginBottom="8dp"
-          android:textSize="13sp"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"/>
-
-        <LinearLayout
-          android:orientation="horizontal"
-          android:layout_marginStart="32dp"
-          android:layout_marginEnd="32dp"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
-
-          <Button
-            android:layout_width="0dp"
-            android:layout_weight="12"
-            android:layout_height="wrap_content"/>
-
-          <Button
-            android:layout_width="0dp"
-            android:layout_weight="4"
-            android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-      </LinearLayout>
-
-      <LinearLayout
-        android:background="@drawable/shape_border"
-        android:showDividers="middle"
-        android:divider="@drawable/shape_vertical_divider"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false">
-
-        <LinearLayout
-          android:gravity="center"
-          android:padding="4dp"
-          android:orientation="vertical"
-          android:layout_width="0dp"
-          android:layout_weight="1"
-          android:layout_height="wrap_content">
-
-          <TextView
-            tools:text="8"
-            android:id="@+id/user_detail_nr_posts_tv"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginBottom="-4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-          <TextView
-            android:text="@string/posts"
-            android:textSize="12sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-          android:gravity="center"
-          android:padding="4dp"
-          android:orientation="vertical"
-          android:layout_width="0dp"
-          android:layout_weight="1"
-          android:layout_height="wrap_content">
-
-          <TextView
-            tools:text="8"
-            android:id="@+id/user_detail_nr_followers_tv"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginBottom="-4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-          <TextView
-            android:text="@string/followers"
-            android:textSize="12sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-          android:gravity="center"
-          android:padding="4dp"
-          android:orientation="vertical"
-          android:layout_width="0dp"
-          android:layout_weight="1"
-          android:layout_height="wrap_content">
-
-          <TextView
-            tools:text="8"
-            android:id="@+id/user_detail_nr_following_tv"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginBottom="-4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-          <TextView
-            android:text="@string/following"
-            android:textSize="12sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-      </LinearLayout>
-
-    </LinearLayout>
-
-  </android.support.design.widget.AppBarLayout>
-
-  <android.support.v7.widget.RecyclerView
-    android:id="@+id/user_posts_rv"
+  <android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    >
 
-</android.support.design.widget.CoordinatorLayout>
+    <android.support.design.widget.AppBarLayout
+      android:id="@+id/app_bar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      >
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_scrollFlags="scroll|snap">
+
+        <android.support.v7.widget.Toolbar
+          android:id="@+id/user_toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize"
+          android:background="?attr/colorPrimary"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
+          android:gravity="center"
+          android:orientation="vertical">
+
+          <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_photo_iv"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:elevation="8dp"
+            android:transitionName="@string/user_picture_transition"/>
+
+          <TextView
+            android:id="@+id/user_name_tv"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="20sp"
+            tools:text="Aaron Oertel"/>
+
+          <TextView
+            android:id="@+id/user_location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            tools:text="Ventura, California"/>
+
+          <View
+            android:layout_width="40dp"
+            android:layout_height="1dp"
+            android:layout_margin="16dp"
+            android:background="#8A000000"/>
+
+          <TextView
+            android:id="@+id/user_bio_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:textAlignment="center"
+            android:textSize="13sp"
+            tools:text="Bacon ipsum dolor amet kevin sirloin fatback doner cupim tri-tip. Biltong spare ribs jowl tail,"/>
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="horizontal">
+
+            <Button
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="12"/>
+
+            <Button
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="4"/>
+
+          </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          android:background="@drawable/shape_border"
+          android:baselineAligned="false"
+          android:divider="@drawable/shape_vertical_divider"
+          android:orientation="horizontal"
+          android:showDividers="middle">
+
+          <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+              android:id="@+id/user_detail_nr_posts_tv"
+              android:textStyle="bold"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="-4dp"
+              android:textSize="16sp"
+              tools:text="8"/>
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/posts"
+              android:textSize="12sp"/>
+
+          </LinearLayout>
+
+          <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+              android:id="@+id/user_detail_nr_followers_tv"
+              android:textStyle="bold"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="-4dp"
+              android:textSize="16sp"
+              tools:text="8"/>
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/followers"
+              android:textSize="12sp"/>
+
+          </LinearLayout>
+
+          <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+              android:id="@+id/user_detail_nr_following_tv"
+              android:textStyle="bold"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="-4dp"
+              android:textSize="16sp"
+              tools:text="8"/>
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/following"
+              android:textSize="12sp"/>
+
+          </LinearLayout>
+
+        </LinearLayout>
+
+      </LinearLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/user_posts_rv"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+  </android.support.design.widget.CoordinatorLayout>
+
+</com.commit451.elasticdragdismisslayout.ElasticDragDismissFrameLayout>

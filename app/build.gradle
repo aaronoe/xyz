@@ -23,6 +23,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -123,6 +124,7 @@ dependencies {
     implementation 'com.google.android:flexbox:0.3.1'
     implementation 'org.cryse.widget:persistentsearchview:1.0.4@aar'
     implementation 'com.github.mancj:MaterialSearchBar:0.7.5'
+    implementation 'com.github.Commit451:ElasticDragDismissLayout:1.0.4'
 
     // Testing
     testImplementation 'junit:junit:4.12'

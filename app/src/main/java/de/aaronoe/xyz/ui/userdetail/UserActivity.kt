@@ -16,6 +16,8 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.commit451.elasticdragdismisslayout.ElasticDragDismissFrameLayout
+import com.commit451.elasticdragdismisslayout.ElasticDragDismissListener
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.model.User
@@ -44,6 +46,8 @@ class UserActivity : AppCompatActivity() {
     lateinit var userBioTv : TextView
     @BindView(R.id.user_location_tv)
     lateinit var userLocationTv : TextView
+    @BindView(R.id.draggable_frame)
+    lateinit var dragFrame : ElasticDragDismissFrameLayout
 
     private lateinit var user : User
     private lateinit var viewModel : UserDetailViewModel
@@ -65,6 +69,15 @@ class UserActivity : AppCompatActivity() {
 
         supportPostponeEnterTransition()
         ButterKnife.bind(this)
+
+        dragFrame.addListener(object : ElasticDragDismissListener {
+            override fun onDrag(elasticOffset: Float, elasticOffsetPixels: Float, rawOffset: Float, rawOffsetPixels: Float) {
+            }
+
+            override fun onDragDismissed() {
+                finishAfterTransition()
+            }
+        })
 
         user = Parcels.unwrap(intent.getParcelableExtra(USER_EXTRA))
         viewModel = ViewModelProviders.of(this).get(UserDetailViewModel::class.java)

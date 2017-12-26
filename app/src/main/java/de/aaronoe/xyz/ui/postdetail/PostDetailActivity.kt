@@ -8,6 +8,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.animation.AnimationUtils
+import com.commit451.elasticdragdismisslayout.ElasticDragDismissListener
 import de.aaronoe.xyz.R
 import de.aaronoe.xyz.databinding.ActivityPostDetailBinding
 import de.aaronoe.xyz.model.Post
@@ -28,6 +29,15 @@ class PostDetailActivity : AppCompatActivity() {
         viewModel.post.observe(this, Observer {
             it?.apply {
                 rebindPost(this)
+            }
+        })
+
+        bindings.dragFrame.addListener(object : ElasticDragDismissListener {
+            override fun onDrag(elasticOffset: Float, elasticOffsetPixels: Float, rawOffset: Float, rawOffsetPixels: Float) {
+            }
+
+            override fun onDragDismissed() {
+                finishAfterTransition()
             }
         })
 

@@ -21,7 +21,7 @@
     </activity>
     <activity android:name=".ui.login.LoginActivity"/>
     <activity android:name=".ui.userdetail.UserActivity"/>
-    <activity android:name=".ui.postdetail.PostDetailActivity">
+    <activity android:name=".ui.postdetail.PostDetailActivity" android:theme="@style/AppTheme.Translucent" >
     </activity>
 
     <meta-data
