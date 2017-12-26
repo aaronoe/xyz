@@ -56,6 +56,7 @@ class NavigationActivity : AppCompatActivity(), NavigationContract {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_search -> {
+                navigator.goToSearch()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_add -> {

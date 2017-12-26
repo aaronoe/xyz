@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+    <variable
+      name="viewModel"
+      type="de.aaronoe.xyz.ui.search.SearchViewModel"/>
+
+    <import type="android.support.v7.widget.LinearLayoutManager"/>
+  </data>
+
+  <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <org.cryse.widget.persistentsearch.PersistentSearchView
+      android:id="@+id/searchview"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:elevation="4dp"
+      app:persistentSV_customToolbarHeight="64dp"
+      app:persistentSV_displayMode="toolbar"
+      app:persistentSV_editHintText="Search"
+      app:persistentSV_editHintTextColor="?android:textColorHint"
+      app:persistentSV_editTextColor="?android:textColorPrimary"
+      app:persistentSV_homeButtonMode="burger"
+      app:persistentSV_searchCardElevation="2dp"
+      app:persistentSV_searchTextColor="?android:textColorPrimary"/>
+
+    <android.support.v7.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:adapter="@{viewModel.adapter}"
+      app:dividers="@{LinearLayoutManager.VERTICAL}"
+      app:layoutManager="@{LinearLayoutManager.VERTICAL}"/>
+
+  </LinearLayout>
+
+</layout>
