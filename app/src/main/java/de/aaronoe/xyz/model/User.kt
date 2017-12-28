@@ -16,6 +16,7 @@ import org.parceler.ParcelConstructor
 
 @Parcel(Parcel.Serialization.BEAN)
 data class User @ParcelConstructor constructor(val userName : String,
+                                               val queryName : String,
                                                val email: String,
                                                val pictureUrl: String,
                                                val userId: String,
@@ -27,6 +28,7 @@ data class User @ParcelConstructor constructor(val userName : String,
 
     constructor() : this(
             userName = "",
+            queryName = "",
             email = "",
             pictureUrl = "",
             userId = "",
@@ -42,6 +44,7 @@ data class User @ParcelConstructor constructor(val userName : String,
      */
     constructor(firebaseUser: FirebaseUser) : this(
             userName = firebaseUser.displayName.toString(),
+            queryName = firebaseUser.displayName.toString().toLowerCase(),
             email = firebaseUser.email.toString(),
             pictureUrl = firebaseUser.photoUrl.toString(),
             userId = firebaseUser.uid,

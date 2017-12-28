@@ -1,9 +1,7 @@
 package de.aaronoe.rxfirestore
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import io.reactivex.*
 
 class NoSuchDocumentException : Exception("There is no document at the given DocumentReference")
@@ -164,5 +162,37 @@ fun <T : Any> Task<T>.getCompletable(): Completable {
     return Completable.create { emitter ->
         addOnSuccessListener { emitter.onComplete() }
         addOnFailureListener { emitter.onError(it) }
+    }
+}
+
+fun <T : Any> CollectionReference.addDocumentSingle(item : T) : Single<DocumentReference> {
+    return Single.create { emitter ->
+        add(item)
+                .addOnSuccessListener { emitter.onSuccess(it) }
+                .addOnFailureListener { emitter.onError(it) }
+    }
+}
+
+fun DocumentReference.updateDocumentCompletable(field : String, newValue : Any) : Completable {
+    return Completable.create { emitter ->
+        update(field, newValue)
+                .addOnSuccessListener { emitter.onComplete() }
+                .addOnFailureListener { emitter.onError(it) }
+    }
+}
+
+fun <ReturnType : Any> FirebaseFirestore.runTransactionCompletable(transaction: Transaction.Function<ReturnType>) : Single<ReturnType> {
+    return Single.create { emitter ->
+        runTransaction(transaction)
+                .addOnSuccessListener { emitter.onSuccess(it) }
+                .addOnFailureListener { emitter.onError(it) }
+    }
+}
+
+fun WriteBatch.getCompletable() : Completable {
+    return Completable.create { emitter ->
+        commit()
+                .addOnSuccessListener { emitter.onComplete() }
+                .addOnFailureListener { emitter.onError(it) }
     }
 }

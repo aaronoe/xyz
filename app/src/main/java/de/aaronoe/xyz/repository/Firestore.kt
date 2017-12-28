@@ -42,6 +42,11 @@ object Firestore {
                 .document(user.userId)
     }
 
+    fun getUsersReference() : CollectionReference {
+        return FirebaseFirestore.getInstance()
+                .collection(USERS)
+    }
+
     fun getUserFollowingReference(user : User) : CollectionReference {
         return FirebaseFirestore.getInstance()
                 .collection(USERS)

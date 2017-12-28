@@ -33,7 +33,8 @@ class PostDetailViewModel : ViewModel() {
     fun refreshPost(post: Post) {
         postDisposable = XyzRepository
                 .getPostObservable(post)
-                .subscribeDefault { this.post.value = it }
+                .subscribeDefault(onNext = { this.post.value = it },
+                        onError = {})
     }
 
     fun refreshComments(post: Post) {

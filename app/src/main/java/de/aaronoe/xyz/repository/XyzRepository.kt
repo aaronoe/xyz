@@ -4,10 +4,7 @@ import android.net.Uri
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import de.aaronoe.rxfirestore.getCompletable
-import de.aaronoe.rxfirestore.getObservable
-import de.aaronoe.rxfirestore.setDocument
-import de.aaronoe.rxfirestore.toSingle
+import de.aaronoe.rxfirestore.*
 import de.aaronoe.xyz.model.Comment
 import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.model.User
@@ -15,6 +12,8 @@ import de.aaronoe.xyz.xyzApp
 import id.zelory.compressor.Compressor
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 import java.io.File
 
 
@@ -80,6 +79,20 @@ object XyzRepository {
     fun postNewComment(post: Post, comment: Comment) : Completable {
         return Firestore.getCommentReference(post, comment)
                 .setDocument(comment)
+    }
+
+    fun searchUsers(query: String) : Single<List<User>> {
+        return Firestore.getUsersReference()
+                .whereGreaterThanOrEqualTo("queryName", query.toLowerCase())
+                .limit(15).getSingle()
+    }
+
+    fun searchForUsers(query: String) : Single<List<User>> {
+        return Single.zip(
+                Firestore.getUsersReference().whereGreaterThanOrEqualTo("userName", query).limit(10).getSingle<User>(),
+                Firestore.getUsersReference().whereLessThanOrEqualTo("userName", query).limit(10).getSingle<User>(),
+                BiFunction { t1, t2 -> t1.union(t2).toList() }
+        )
     }
 
 }

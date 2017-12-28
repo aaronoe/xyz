@@ -9,6 +9,7 @@ import de.aaronoe.xyz.ui.feed.FeedFragment
 import de.aaronoe.xyz.ui.newpost.NewPostFragment
 import de.aaronoe.xyz.ui.search.SearchFragment
 import de.aaronoe.xyz.ui.userdetail.UserFragment
+import kotlinx.android.synthetic.main.fragment_feed.*
 import java.lang.ref.WeakReference
 
 class Navigator(private val fragmentManager: FragmentManager,
@@ -22,10 +23,11 @@ class Navigator(private val fragmentManager: FragmentManager,
     fun goToFeed() {
         check(activity.get() is NavigationActivity)
         val fragment = fragmentManager.findFragmentByTag(FeedFragment.TAG)
-        if (fragment?.isVisible == true) {
-            // TODO- aoe: scroll to top
-        }
         val feed = fragment ?: feedFragment
+        if (feed.isVisible) {
+            feed.posts_rv.smoothScrollToPosition(0)
+            return
+        }
         replaceFragment(feed, FeedFragment.TAG)
     }
 

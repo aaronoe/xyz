@@ -33,7 +33,9 @@ class UserDetailViewModel(application: Application) : AndroidViewModel(applicati
     fun refreshUserPosts(user : User) {
         postsDisposable = XyzRepository
                 .getPostsForUserObservable(user)
-                .subscribeDefault { postsLiveData.value = it }
+                .subscribeDefault {
+                    postsLiveData.value = it
+                }
     }
 
     fun refreshUser(user : User) {
