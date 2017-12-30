@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+    <variable
+      name="viewModel"
+      type="de.aaronoe.xyz.ui.search.results.SearchResultViewModel" />
+  </data>
+
+  <android.support.constraint.ConstraintLayout
+    android:padding="8dp"
+    style="@style/ElevationItem"
+    android:onClick="@{viewModel::onClickItem}"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+      android:id="@+id/search_result_iv"
+      app:imageUrl="@{viewModel.user.pictureUrl}"
+      android:transitionName="@string/user_picture_transition"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toTopOf="@id/search_result_username"
+      app:layout_constraintBottom_toBottomOf="@id/search_result_bio"
+      android:elevation="8dp"
+      android:layout_width="36dp"
+      android:layout_height="36dp"/>
+
+    <TextView
+      android:text="@{viewModel.user.userName}"
+      android:id="@+id/search_result_username"
+      tools:text="Aaron Oertel"
+      android:layout_marginStart="16dp"
+      style="@style/TextAppearance.AppCompat.Body1"
+      app:layout_constraintLeft_toRightOf="@id/search_result_iv"
+      app:layout_constraintTop_toTopOf="parent"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+    <TextView
+      android:text="@{viewModel.user.bio}"
+      android:id="@+id/search_result_bio"
+      tools:text="Bio interesting stuff"
+      app:layout_constraintTop_toBottomOf="@id/search_result_username"
+      app:layout_constraintLeft_toLeftOf="@id/search_result_username"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+  </android.support.constraint.ConstraintLayout>
+
+</layout>
+

@@ -5,10 +5,13 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
 import android.view.View
 import android.view.animation.AnimationUtils
+import de.aaronoe.rxfirestore.incrementLongField
 import de.aaronoe.rxfirestore.subscribeDefault
 import de.aaronoe.xyz.R
+import de.aaronoe.xyz.messaging.NotificationFactory
 import de.aaronoe.xyz.model.Comment
 import de.aaronoe.xyz.model.Post
+import de.aaronoe.xyz.repository.Firestore
 import de.aaronoe.xyz.repository.XyzRepository
 import de.aaronoe.xyz.ui.postdetail.comments.CommentAdapter
 import de.aaronoe.xyz.utils.gone
@@ -33,7 +36,8 @@ class PostDetailViewModel : ViewModel() {
     fun refreshPost(post: Post) {
         postDisposable = XyzRepository
                 .getPostObservable(post)
-                .subscribeDefault { this.post.value = it }
+                .subscribeDefault(onNext = { this.post.value = it },
+                        onError = {})
     }
 
     fun refreshComments(post: Post) {
@@ -54,12 +58,6 @@ class PostDetailViewModel : ViewModel() {
 
     fun newComment(view: View?) {
         post.value?.let {
-            Comment(it.author, "THis is the best comment ever").run {
-                XyzRepository.postNewComment(it, this)
-                        .subscribeDefault {
-                            "Yay"
-                        }
-            }
         }
     }
 

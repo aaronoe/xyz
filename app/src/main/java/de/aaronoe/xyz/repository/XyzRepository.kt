@@ -1,20 +1,21 @@
 package de.aaronoe.xyz.repository
 
 import android.net.Uri
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import de.aaronoe.rxfirestore.getCompletable
-import de.aaronoe.rxfirestore.getObservable
-import de.aaronoe.rxfirestore.setDocument
-import de.aaronoe.rxfirestore.toSingle
+import de.aaronoe.rxfirestore.*
 import de.aaronoe.xyz.model.Comment
+import de.aaronoe.xyz.model.MessagingToken
 import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.model.User
 import de.aaronoe.xyz.xyzApp
 import id.zelory.compressor.Compressor
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 import java.io.File
 
 
@@ -38,6 +39,20 @@ object XyzRepository {
 
     fun getUserObservable(user: User) : Observable<User> {
         return Firestore.getUserReference(user).getObservable()
+    }
+
+    fun getUserSingle(userId: String) : Single<User> {
+        return Firestore.getUserReference(userId).getSingle()
+    }
+
+    fun getUserPostPairSingle(authorUserId: String, likeUserId: String, postId: String) : Single<Pair<User, Post>> {
+        return Single.zip(
+                Firestore.getUserReference(likeUserId).getSingle(),
+                Firestore.getPostReference(postId, authorUserId).getSingle(),
+                BiFunction<User, Post, Pair<User, Post>> { user, post ->
+                    Pair(user, post)
+                }
+        )
     }
 
     fun getPostObservable(post: Post): Observable<Post> {
@@ -80,6 +95,28 @@ object XyzRepository {
     fun postNewComment(post: Post, comment: Comment) : Completable {
         return Firestore.getCommentReference(post, comment)
                 .setDocument(comment)
+    }
+
+    fun searchUsers(query: String) : Single<List<User>> {
+        return Firestore.getUsersReference()
+                .whereGreaterThanOrEqualTo("queryName", query.toLowerCase())
+                .limit(15).getSingle()
+    }
+
+    fun uploadUserMessagingToken(user: User, token: String) : Single<DocumentReference> {
+        return Firestore.getUserMessagingTokensReference(user)
+                .addDocumentSingle(MessagingToken(token))
+    }
+
+    fun followUser(userToFollow: User, thisUser : User): Completable {
+        return Firestore.getUserFollowersReference(userToFollow)
+                .document(thisUser.userId)
+                .setDocument(thisUser)
+    }
+
+    fun likePost(post: Post, thisUser: User) : Single<DocumentReference> {
+        return Firestore.getPostLikesReference(post)
+                .addDocumentSingle(thisUser)
     }
 
 }
