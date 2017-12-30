@@ -2,8 +2,10 @@ package de.aaronoe.xyz.repository
 
 import android.arch.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
 import de.aaronoe.rxfirestore.getObservable
 import de.aaronoe.rxfirestore.subscribeDefault
+import de.aaronoe.xyz.messaging.XyzInstanceIdService
 import de.aaronoe.xyz.model.User
 
 object AccountManager {
@@ -21,8 +23,14 @@ object AccountManager {
 
     fun updateUser() {
         firebaseUser = firebaseAuth.currentUser
+        user = firebaseUser?.let { User(it) }
         subscribeToUserUpdates()
         subscribeToUserFollowingUpdates()
+    }
+
+    fun onFirstLogin() {
+        updateUser()
+        XyzInstanceIdService.uploadNewToken()
     }
 
     private fun subscribeToUserUpdates() {

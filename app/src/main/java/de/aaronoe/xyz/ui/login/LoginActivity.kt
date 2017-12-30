@@ -96,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
                 .subscribeDefault(
                         onComplete = {
                             toast("Success")
-                            AccountManager.updateUser()
+                            AccountManager.onFirstLogin()
                             progressDialog.cancel()
                             updateUI(firebaseAuth.currentUser)
                         },

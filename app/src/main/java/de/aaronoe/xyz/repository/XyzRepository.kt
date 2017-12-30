@@ -1,11 +1,13 @@
 package de.aaronoe.xyz.repository
 
 import android.net.Uri
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import de.aaronoe.rxfirestore.*
 import de.aaronoe.xyz.model.Comment
+import de.aaronoe.xyz.model.MessagingToken
 import de.aaronoe.xyz.model.Post
 import de.aaronoe.xyz.model.User
 import de.aaronoe.xyz.xyzApp
@@ -37,6 +39,20 @@ object XyzRepository {
 
     fun getUserObservable(user: User) : Observable<User> {
         return Firestore.getUserReference(user).getObservable()
+    }
+
+    fun getUserSingle(userId: String) : Single<User> {
+        return Firestore.getUserReference(userId).getSingle()
+    }
+
+    fun getUserPostPairSingle(authorUserId: String, likeUserId: String, postId: String) : Single<Pair<User, Post>> {
+        return Single.zip(
+                Firestore.getUserReference(likeUserId).getSingle(),
+                Firestore.getPostReference(postId, authorUserId).getSingle(),
+                BiFunction<User, Post, Pair<User, Post>> { user, post ->
+                    Pair(user, post)
+                }
+        )
     }
 
     fun getPostObservable(post: Post): Observable<Post> {
@@ -87,12 +103,20 @@ object XyzRepository {
                 .limit(15).getSingle()
     }
 
-    fun searchForUsers(query: String) : Single<List<User>> {
-        return Single.zip(
-                Firestore.getUsersReference().whereGreaterThanOrEqualTo("userName", query).limit(10).getSingle<User>(),
-                Firestore.getUsersReference().whereLessThanOrEqualTo("userName", query).limit(10).getSingle<User>(),
-                BiFunction { t1, t2 -> t1.union(t2).toList() }
-        )
+    fun uploadUserMessagingToken(user: User, token: String) : Single<DocumentReference> {
+        return Firestore.getUserMessagingTokensReference(user)
+                .addDocumentSingle(MessagingToken(token))
+    }
+
+    fun followUser(userToFollow: User, thisUser : User): Completable {
+        return Firestore.getUserFollowersReference(userToFollow)
+                .document(thisUser.userId)
+                .setDocument(thisUser)
+    }
+
+    fun likePost(post: Post, thisUser: User) : Single<DocumentReference> {
+        return Firestore.getPostLikesReference(post)
+                .addDocumentSingle(thisUser)
     }
 
 }

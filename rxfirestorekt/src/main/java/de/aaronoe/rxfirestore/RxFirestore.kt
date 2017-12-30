@@ -181,7 +181,7 @@ fun DocumentReference.updateDocumentCompletable(field : String, newValue : Any) 
     }
 }
 
-fun <ReturnType : Any> FirebaseFirestore.runTransactionCompletable(transaction: Transaction.Function<ReturnType>) : Single<ReturnType> {
+fun <ReturnType : Any> FirebaseFirestore.runTransactionSingle(transaction: Transaction.Function<ReturnType>) : Single<ReturnType> {
     return Single.create { emitter ->
         runTransaction(transaction)
                 .addOnSuccessListener { emitter.onSuccess(it) }
@@ -195,4 +195,24 @@ fun WriteBatch.getCompletable() : Completable {
                 .addOnSuccessListener { emitter.onComplete() }
                 .addOnFailureListener { emitter.onError(it) }
     }
+}
+
+fun DocumentReference.incrementLongField(fieldName: String) : Single<Long> {
+    return FirebaseFirestore.getInstance()
+            .runTransactionSingle(Transaction.Function {
+                val docSnapshot = it.get(this)
+                val newValue = docSnapshot.getLong(fieldName) + 1
+                it.update(this, fieldName, newValue)
+                newValue
+            })
+}
+
+fun DocumentReference.incrementDoubleField(fieldName: String) : Single<Double> {
+    return FirebaseFirestore.getInstance()
+            .runTransactionSingle(Transaction.Function {
+                val docSnapshot = it.get(this)
+                val newValue = docSnapshot.getDouble(fieldName) + 1
+                it.update(this, fieldName, newValue)
+                newValue
+            })
 }
